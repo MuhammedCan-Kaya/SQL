@@ -4,3 +4,30 @@
 4- payment tablosunda en fazla sayıda alışveriş yapan müşterileri(customer) sıralayınız.
 
 MADDE 1:
+        SELECT COUNT(title) FROM film
+        WHERE length > ANY
+        (
+        SELECT AVG(film.length) FROM film
+        );
+
+MADDE 2:
+        SELECT COUNT(title) FROM film
+        WHERE rental_rate = ANY
+        (
+        SELECT MAX(film.rental_rate) FROM film
+        );
+
+MADDE 3:
+        SELECT title, rental_rate, replacement_cost FROM film
+        WHERE (rental_rate,replacement_cost) =
+        (
+        SELECT MIN(film.rental_rate), MIN(film.replacement_cost) FROM film
+        );
+
+MADDE 4:
+        SELECT payment.payment_id, payment.customer_id, payment.amount, customer.first_name, customer.last_name FROM payment 
+        INNER JOIN customer ON payment.customer_id = customer.customer_id 
+        WHERE amount = 
+        (
+        SELECT MAX(amount) FROM payment
+        );
